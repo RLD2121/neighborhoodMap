@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <title>Neighborhood Map</title>
     <link rel="stylesheet" href="css/style.css">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBf4cjYevE1a5unQObLqDdZwLn-BGcD2g&v=3&callback=initMap">
+    </script>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/knockout-3.2.0.js"></script>
 </head>
 
 <body>
@@ -118,21 +122,26 @@
             }
         }
         
-//{
-//  "access_token": "Y7ccCBTmgxw4sdCSpfm9Sr9QfXyRla2cI1hj4xgPux4Mg8pXiCQTYKSWtGIsJuq3YjBI6i2x9ohuH20J3t4BaiKwk3TLd_l7wbAVzS6pHEKSSaZlRHvhXikUBj0uWXYx",
-//  "expires_in": 15551999,
-//  "token_type": "Bearer"
-//}        
-        var accessToken = Y7ccCBTmgxw4sdCSpfm9Sr9QfXyRla2cI1hj4xgPux4Mg8pXiCQTYKSWtGIsJuq3YjBI6i2x9ohuH20J3t4BaiKwk3TLd_l7wbAVzS6pHEKSSaZlRHvhXikUBj0uWXYx;
-        var yelpClientId = TAhxJpV53cCkvkGOCUbUwQ;
-        var yelpClientSecret = qDt9We8eMeqhpbYCpDe8qRUYorhLuwzv9TkzO4ZSYLsn1Xl3sEpkADSUrp4EGIbk;
+        
+        //Foursquare IDs
+        var clientID = 'PRWKLHKQ0KYRZ2W34ACVYLSEO3RW2RORPECMNDHQJABFSSEU';
+        var clientSecret = 'D5Q0URJ4JXUJAMTNBBYIW0IUY2ARC352DWNNNWO1OCMQOWO5';        
+        var apiURL = 'https://api.foursquare.com/v2/venues/';
+        var foursquareVersion = '20170603';
+        var venueID = '4b833fe2f964a52023ff30e3';
+
+        var foursquareURL = apiURL + venueID + '?client_id=' + clientID +  '&client_secret=' + clientSecret +'&v=' + foursquareVersion;
+        
+    $.ajax({
+      url: foursquareURL, 
+      success: function(data) {
+        console.log(data);
+      } 
+    });
         
     </script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBf4cjYevE1a5unQObLqDdZwLn-BGcD2g&v=3&callback=initMap">
-    </script>
-    <script src="js/lib/jquery.min.js"></script>
-    <script src="js/lib/knockout-3.2.0.js"></script>
+    
 </body>
 
 </html>
