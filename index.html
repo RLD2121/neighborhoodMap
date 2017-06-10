@@ -15,9 +15,15 @@
     <header>
         <h1>Top Mex Food</h1>
     </header>
+    <div>
+        <input type="text" data-bind="textInput: filter">
+        <ul data-bind="foreach: searchBar()">
+            <li class="place" data-bind="text: name, click: $parent.select"></li>
+        </ul>
+    </div>
     <div id="map"></div>
     <script>
-        var infoWindow, map;
+        var infoWindow, map, vm;
 
         var storesMarkers = [];
         var stores = [{
@@ -126,6 +132,7 @@
                     position: position,
                     map: map,
                     id: storeID,
+                    name: name,
                     animation: google.maps.Animation.DROP
                 })
 
@@ -138,6 +145,29 @@
                         requestToFourSquare(marker);
                     }
                 })(marker));
+            }
+            //will instantiate view model
+            vm = new ViewModel();
+            ko.applyBindings(vm);
+        }
+
+        //Need to understand how this filter code works
+        var ViewModel = function() {
+            var self = this;
+            self.filter = ko.observable(" ");
+            self.searchBar = ko.computed(function() {
+                var locations = ko.observableArray();
+                storesMarkers.forEach(function(marker) {
+                    if (marker.name.toLowerCase().indexOf(self.filter().toLowerCase()) >= 0) {
+                        locations.push(marker);
+                        marker.setVisible(true);
+                    } else marker.setVisible(false);
+                });
+                return locations;
+            });
+            this.select = function(parent) {
+                requestToFourSquare(parent, parent.marker);
+                parent.marker.setAnimation(google.maps.Animation.BOUNCE);
             }
         }
     </script>
