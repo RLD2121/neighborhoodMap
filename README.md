@@ -3,7 +3,7 @@ Neighborhood Map Project: Top Taco Shops in the Inland Empire
 
 # Summary:
 
-This is Project 6 of the Udacity Front-end Nanodegree.  Both Foursquare and Googlemaps API are used for this project. 
+This is Project 5 of the Udacity Front-end Nanodegree.  Both Foursquare and Googlemaps API are used for this project. 
 
 
 # How to run:
