@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Neighborhood Map</title>
     <link rel="stylesheet" href="css/style.css">
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBf4cjYevE1a5unQObLqDdZwLn-BGcD2g&v=3&callback=initMap">
@@ -18,7 +19,7 @@
     <div>
         <input type="text" data-bind="textInput: filter">
         <ul data-bind="foreach: searchBar()">
-            <li class="place" data-bind="text: name, click: $parent.select"></li>
+            <li class="place" data-bind="text: name, click: $root.select"></li>
         </ul>
     </div>
     <div id="map"></div>
@@ -78,6 +79,10 @@
         ];
 
         var requestToFourSquare = function(marker) {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function() {
+                marker.setAnimation(null);
+            }, 2100)
             //Foursquare IDs
             var clientID = 'PRWKLHKQ0KYRZ2W34ACVYLSEO3RW2RORPECMNDHQJABFSSEU';
             var clientSecret = 'D5Q0URJ4JXUJAMTNBBYIW0IUY2ARC352DWNNNWO1OCMQOWO5';
@@ -97,6 +102,9 @@
                     var foursquareLikes = data.response.venue.likes.count;
                     var foursquareName = data.response.venue.name;
                     var foursquareRating = data.response.venue.rating;
+                    if (foursquareRating = "undefined") {
+                        foursquareRating = "Foursquare Rating Not Available";
+                    }
                     console.log(data);
 
                     infoWindow.setContent(foursquareName + "</br>" + "Rating: " + foursquareRating + "</br>" + "Likes: " + foursquareLikes);
@@ -154,10 +162,13 @@
         //Need to understand how this filter code works
         var ViewModel = function() {
             var self = this;
-            self.filter = ko.observable(" ");
+            self.filter = ko.observable("");
             self.searchBar = ko.computed(function() {
+                infoWindow.close();
                 var locations = ko.observableArray();
                 storesMarkers.forEach(function(marker) {
+                    console.log(marker.name);
+                    console.log(self.filter());
                     if (marker.name.toLowerCase().indexOf(self.filter().toLowerCase()) >= 0) {
                         locations.push(marker);
                         marker.setVisible(true);
@@ -165,9 +176,8 @@
                 });
                 return locations;
             });
-            this.select = function(parent) {
-                requestToFourSquare(parent, parent.marker);
-                parent.marker.setAnimation(google.maps.Animation.BOUNCE);
+            this.select = function(marker) {
+                requestToFourSquare(marker);
             }
         }
     </script>
