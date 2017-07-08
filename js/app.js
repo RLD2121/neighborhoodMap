@@ -56,7 +56,7 @@ var requestToFourSquare = function(marker) {
     marker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function() {
         marker.setAnimation(null);
-    }, 2100)
+    }, 2100);
     //Foursquare IDs
     var clientID = 'PRWKLHKQ0KYRZ2W34ACVYLSEO3RW2RORPECMNDHQJABFSSEU';
     var clientSecret = 'D5Q0URJ4JXUJAMTNBBYIW0IUY2ARC352DWNNNWO1OCMQOWO5';
@@ -76,7 +76,7 @@ var requestToFourSquare = function(marker) {
             var foursquareLikes = data.response.venue.likes.count;
             var foursquareName = data.response.venue.name;
             var foursquareRating = data.response.venue.rating;
-            if (foursquareRating = "undefined") {
+            if (foursquareRating == undefined) {
                 foursquareRating = "Foursquare Rating Not Available";
             }
             console.log(data);
@@ -85,7 +85,7 @@ var requestToFourSquare = function(marker) {
             infoWindow.open(map, marker);
         }
     });
-}
+};
 
 
 function initMap() {
@@ -116,7 +116,7 @@ function initMap() {
             id: storeID,
             name: name,
             animation: google.maps.Animation.DROP
-        })
+        });
 
         //push each marker to 
         storesMarkers.push(marker);
@@ -125,7 +125,7 @@ function initMap() {
         marker.addListener('click', (function(marker) {
             return function() {
                 requestToFourSquare(marker);
-            }
+            };
         })(marker));
     }
     //will instantiate view model
@@ -152,5 +152,5 @@ var ViewModel = function() {
     });
     this.select = function(marker) {
         requestToFourSquare(marker);
-    }
-}
+    };
+};
