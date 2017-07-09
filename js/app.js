@@ -102,6 +102,11 @@ function initMap() {
     //stores length
     var storesLength = stores.length;
     infoWindow = new google.maps.InfoWindow();
+    
+    //function to attach event listener to marker
+    function clickMarker() {
+        requestToFourSquare(this);
+    }
 
     for (var i = 0; i < storesLength; i++) {
 
@@ -121,12 +126,9 @@ function initMap() {
         //push each marker to 
         storesMarkers.push(marker);
 
+
         //Attach event listener to each marker 
-        marker.addListener('click', (function(marker) {
-            return function() {
-                requestToFourSquare(marker);
-            };
-        })(marker));
+        marker.addListener('click', clickMarker);
     }
     //will instantiate view model
     vm = new ViewModel();
